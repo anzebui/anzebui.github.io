@@ -1,225 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#5e3fb5">
-    <meta name="description" content="A beautiful, elegant wishlist app to track your cutest wishes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Wishlist">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23f8f7fc;stop-opacity:1' /><stop offset='100%' style='stop-color:%23f5f2ff;stop-opacity:1' /></linearGradient></defs><rect width='180' height='180' fill='url(%23grad)' rx='40'/><text x='90' y='110' font-size='80' text-anchor='middle' fill='%235e3fb5' font-weight='bold'>✨</text></svg>">
-    <link rel="manifest" href="manifest.json">
-    <title>✨ My Wishlist ✨</title>
-    <link rel="stylesheet" href="style.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+   <meta name="theme-color" content="#5e3fb5">
+   <meta name="description" content="A beautiful, elegant wishlist app to track your cutest wishes">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+   <meta name="apple-mobile-web-app-title" content="Wishlist">
+   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23f8f7fc;stop-opacity:1' /><stop offset='100%' style='stop-color:%23f5f2ff;stop-opacity:1' /></linearGradient></defs><rect width='180' height='180' fill='url(%23grad)' rx='40'/><text x='90' y='110' font-size='80' text-anchor='middle' fill='%235e3fb5' font-weight='bold'>✨</text></svg>">
+   <link rel="manifest" href="manifest.json">
+   <title>✨ My Wishlist ✨</title>
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <button class="nav-btn active" id="homeNavBtn" onclick="goToHome()" title="Home">
-            🏠
-        </button>
-        <span class="profile-name" id="profileName">My Wishlist</span>
-        <button class="nav-btn" id="profileNavBtn" onclick="goToProfile()" title="Profile">
-            👤
-        </button>
-    </nav>
+   <div class="container">
+       <header>
+           <h1>✨ My Wishlist ✨</h1>
+           <p class="subtitle">add the cutest things you want 💕</p>
+       </header>
 
-    <!-- Home Screen (Wishlist) -->
-    <div id="homeScreen" class="screen active">
-        <div class="container">
-            <header>
-                <h1>✨ My Wishlist ✨</h1>
-                <p class="subtitle">add the cutest things you want 💕</p>
-            </header>
 
-            <div class="input-section">
-                <input 
-                    type="text" 
-                    id="itemInput" 
-                    placeholder="item name 🎁"
-                    class="input-field"
-                >
-                <input 
-                    type="text" 
-                    id="itemLinkInput" 
-                    placeholder="product link (optional)"
-                    class="input-field"
-                >
-                <button id="addBtn" class="add-btn">Add to Wishlist 💗</button>
-            </div>
+       <div class="input-section">
+           <input
+               type="text"
+               id="itemInput"
+               placeholder="item name 🎁"
+               class="input-field"
+           >
+           <input
+               type="text"
+               id="itemLinkInput"
+               placeholder="product link (optional)"
+               class="input-field"
+           >
+           <button id="addBtn" class="add-btn">Add to Wishlist 💗</button>
+       </div>
 
-            <div class="stats-section">
-                <div class="stat-item">
-                    <span class="stat-label">Total Items:</span>
-                    <span class="stat-value" id="totalItems">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Received:</span>
-                    <span class="stat-value" id="receivedItems">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Remaining:</span>
-                    <span class="stat-value" id="remainingItems">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Total Price:</span>
-                    <span class="stat-value" id="totalPrice">€ 0</span>
-                </div>
-            </div>
 
-            <div class="filter-section">
-                <div class="sort-buttons">
-                    <button id="sortPriceLow" class="sort-btn">💰 Price: Low to High</button>
-                    <button id="sortPriceHigh" class="sort-btn">💰 Price: High to Low</button>
-                    <button id="sortNewest" class="sort-btn">✨ Newest</button>
-                    <button id="sortOldest" class="sort-btn">📅 Oldest</button>
-                </div>
-                <div id="categoryFilters" class="category-filters">
-                    <!-- Category filter buttons will be added here -->
-                </div>
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="search your wishlist... 🔍"
-                    class="input-field search-input"
-                >
-            </div>
+       <div class="stats-section">
+           <div class="stat-item">
+               <span class="stat-label">Total Items:</span>
+               <span class="stat-value" id="totalItems">0</span>
+           </div>
+           <div class="stat-item">
+               <span class="stat-label">Received:</span>
+               <span class="stat-value" id="receivedItems">0</span>
+           </div>
+           <div class="stat-item">
+               <span class="stat-label">Remaining:</span>
+               <span class="stat-value" id="remainingItems">0</span>
+           </div>
+           <div class="stat-item">
+               <span class="stat-label">Total Price:</span>
+               <span class="stat-value" id="totalPrice">€ 0</span>
+           </div>
+       </div>
 
-            <div class="wishlist-container">
-                <div id="wishlistItems" class="wishlist-gallery">
-                    <!-- Items will be added here as cards -->
-                </div>
-            </div>
 
-            <div id="emptyState" class="empty-state">
-                <p>your wishlist is empty... add something cute! 🌸</p>
-            </div>
-        </div>
-    </div>
+       <div class="filter-section">
+           <div class="sort-buttons">
+               <button id="sortPriceLow" class="sort-btn">💰 Price: Low to High</button>
+               <button id="sortPriceHigh" class="sort-btn">💰 Price: High to Low</button>
+               <button id="sortNewest" class="sort-btn">✨ Newest</button>
+               <button id="sortOldest" class="sort-btn">📅 Oldest</button>
+           </div>
+           <div id="categoryFilters" class="category-filters">
+               <!-- Category filter buttons will be added here -->
+           </div>
+           <input
+               type="text"
+               id="searchInput"
+               placeholder="search your wishlist... 🔍"
+               class="input-field search-input"
+           >
+       </div>
 
-    <!-- Profile Screen -->
-    <div id="profileScreen" class="screen">
-        <div class="container profile-container">
-            <header>
-                <h1>👤 Profile</h1>
-                <p class="subtitle">manage your wishlists</p>
-            </header>
 
-            <div class="current-profile-section">
-                <h2>Current Profile</h2>
-                <div class="current-profile-card">
-                    <div class="profile-emoji">👤</div>
-                    <div class="profile-info">
-                        <p class="profile-username" id="currentProfileName">My Wishlist</p>
-                        <p class="profile-items" id="profileItemCount">0 items</p>
-                    </div>
-                </div>
-            </div>
+       <div class="wishlist-container">
+           <div id="wishlistItems" class="wishlist-gallery">
+               <!-- Items will be added here as cards -->
+           </div>
+       </div>
 
-            <div class="profiles-list-section">
-                <h2>All Profiles</h2>
-                <div id="profilesList" class="profiles-list">
-                    <!-- Profiles will be listed here -->
-                </div>
-            </div>
 
-            <div class="profile-actions">
-                <button class="profile-btn create-profile-btn" onclick="openCreateProfileModal()">➕ Create New Profile</button>
-                <button class="profile-btn danger-btn" onclick="deleteCurrentProfile()">🗑️ Delete Current Profile</button>
-            </div>
-        </div>
-    </div>
+       <div id="emptyState" class="empty-state">
+           <p>your wishlist is empty... add something cute! 🌸</p>
+       </div>
+   </div>
 
-    <!-- Modal for creating profile -->
-    <div id="createProfileModal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Create Profile 💕</h2>
-                <button class="close-modal" onclick="closeCreateProfileModal()">&times;</button>
-            </div>
-            <input 
-                type="text" 
-                id="newProfileName" 
-                placeholder="Profile name"
-                class="modal-input"
-            >
-            <div class="modal-buttons">
-                <button id="createProfileBtn" class="modal-btn save-btn" onclick="createProfile()">Create</button>
-                <button id="cancelCreateProfileBtn" class="modal-btn cancel-btn" onclick="closeCreateProfileModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal for editing items -->
-    <div id="editModal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Item 💕</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <input 
-                type="text" 
-                id="editInput" 
-                placeholder="item name"
-                class="modal-input"
-            >
-            <select id="editCategorySelect" class="modal-input">
-                <option value="">Select category...</option>
-                <option value="Fashion">👗 Fashion</option>
-                <option value="Home">🏠 Home</option>
-                <option value="Tech">💻 Tech</option>
-                <option value="Beauty">💄 Beauty</option>
-                <option value="Books">📚 Books</option>
-                <option value="Food">🍰 Food</option>
-                <option value="Sports">⚽ Sports</option>
-                <option value="Other">✨ Other</option>
-            </select>
-            <input 
-                type="text" 
-                id="editLinkInput" 
-                placeholder="product link (optional)"
-                class="modal-input"
-            >
-            <input 
-                type="text" 
-                id="editPriceInput" 
-                placeholder="price (optional) 💰"
-                class="modal-input"
-            >
-            <input 
-                type="text" 
-                id="editImageInput" 
-                placeholder="image URL (optional)"
-                class="modal-input"
-            >
-            <textarea 
-                id="editNotesInput" 
-                placeholder="notes (optional) 📝"
-                class="modal-input modal-textarea"
-                rows="2"
-            ></textarea>
-            <div class="modal-buttons">
-                <button id="saveEditBtn" class="modal-btn save-btn">Save Changes</button>
-                <button id="cancelEditBtn" class="modal-btn cancel-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
+   <!-- Modal for editing items -->
+   <div id="editModal" class="modal hidden">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h2>Edit Item 💕</h2>
+               <button class="close-modal">&times;</button>
+           </div>
+           <input
+               type="text"
+               id="editInput"
+               placeholder="item name"
+               class="modal-input"
+           >
+           <select id="editCategorySelect" class="modal-input">
+               <option value="">Select category...</option>
+               <option value="Fashion">👗 Fashion</option>
+               <option value="Home">🏠 Home</option>
+               <option value="Tech">💻 Tech</option>
+               <option value="Beauty">💄 Beauty</option>
+               <option value="Books">📚 Books</option>
+               <option value="Food">🍰 Food</option>
+               <option value="Sports">⚽ Sports</option>
+               <option value="Other">✨ Other</option>
+           </select>
+           <input
+               type="text"
+               id="editLinkInput"
+               placeholder="product link (optional)"
+               class="modal-input"
+           >
+           <input
+               type="text"
+               id="editPriceInput"
+               placeholder="price (optional) 💰"
+               class="modal-input"
+           >
+           <input
+               type="text"
+               id="editImageInput"
+               placeholder="image URL (optional)"
+               class="modal-input"
+           >
+           <textarea
+               id="editNotesInput"
+               placeholder="notes (optional) 📝"
+               class="modal-input modal-textarea"
+               rows="2"
+           ></textarea>
+           <div class="modal-buttons">
+               <button id="saveEditBtn" class="modal-btn save-btn">Save Changes</button>
+               <button id="cancelEditBtn" class="modal-btn cancel-btn">Cancel</button>
+           </div>
+       </div>
+   </div>
 
-    <script src="script.js"></script>
-    <script>
-        // Register service worker for offline support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then((registration) => {
-                        console.log('Service Worker registered successfully:', registration);
-                    })
-                    .catch((error) => {
-                        console.log('Service Worker registration failed:', error);
-                    });
-            });
-        }
-    </script>
+
+   <script src="script.js"></script>
+   <script>
+       // Register service worker for offline support
+       if ('serviceWorker' in navigator) {
+           window.addEventListener('load', () => {
+               navigator.serviceWorker.register('service-worker.js')
+                   .then((registration) => {
+                       console.log('Service Worker registered successfully:', registration);
+                   })
+                   .catch((error) => {
+                       console.log('Service Worker registration failed:', error);
+                   });
+           });
+       }
+   </script>
 </body>
 </html>
+
