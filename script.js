@@ -1,6 +1,145 @@
+// ============ PROFILE MANAGEMENT ============
+
+let profiles = JSON.parse(localStorage.getItem('profiles')) || {};
+let currentProfileId = localStorage.getItem('currentProfileId');
+
+// Initialize first profile if none exist
+if (Object.keys(profiles).length === 0) {
+    const defaultId = 'profile_' + Date.now();
+    profiles[defaultId] = {
+        id: defaultId,
+        name: 'My Wishlist',
+        createdAt: new Date().getTime(),
+        wishlist: []
+    };
+    currentProfileId = defaultId;
+    saveProfiles();
+}
+
+// Get current profile
+function getCurrentProfile() {
+    return profiles[currentProfileId];
+}
+
+function saveProfiles() {
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+    localStorage.setItem('currentProfileId', currentProfileId);
+}
+
+function switchProfile(profileId) {
+    if (profiles[profileId]) {
+        currentProfileId = profileId;
+        saveProfiles();
+        updateProfileName();
+        displayWishlist();
+        updateStats();
+    }
+}
+
+function createProfile() {
+    const name = document.getElementById('newProfileName').value.trim();
+    
+    if (!name) {
+        alert('Please enter a profile name!');
+        return;
+    }
+    
+    const newId = 'profile_' + Date.now();
+    profiles[newId] = {
+        id: newId,
+        name: name,
+        createdAt: new Date().getTime(),
+        wishlist: []
+    };
+    
+    currentProfileId = newId;
+    saveProfiles();
+    
+    displayProfiles();
+    updateProfileName();
+    closeCreateProfileModal();
+    displayWishlist();
+    updateStats();
+}
+
+function deleteCurrentProfile() {
+    const currentProfile = getCurrentProfile();
+    
+    if (Object.keys(profiles).length === 1) {
+        alert('You must have at least one profile!');
+        return;
+    }
+    
+    if (confirm(`Delete profile "${currentProfile.name}"? This cannot be undone.`)) {
+        delete profiles[currentProfileId];
+        
+        // Switch to first remaining profile
+        currentProfileId = Object.keys(profiles)[0];
+        saveProfiles();
+        
+        displayProfiles();
+        updateProfileName();
+        displayWishlist();
+        updateStats();
+    }
+}
+
+function updateProfileName() {
+    const profile = getCurrentProfile();
+    document.getElementById('profileName').textContent = profile.name;
+    document.getElementById('currentProfileName').textContent = profile.name;
+    document.getElementById('profileItemCount').textContent = `${profile.wishlist.length} item${profile.wishlist.length !== 1 ? 's' : ''}`;
+}
+
+function displayProfiles() {
+    const profilesList = document.getElementById('profilesList');
+    profilesList.innerHTML = '';
+    
+    Object.values(profiles).forEach(profile => {
+        const div = document.createElement('div');
+        div.className = `profile-list-item ${profile.id === currentProfileId ? 'active' : ''}`;
+        
+        div.innerHTML = `
+            <div class="profile-list-name" onclick="switchProfile('${profile.id}')">
+                👤 ${profile.name}
+                <span style="color: #8b7db8; font-size: 0.8em; font-weight: 400;">(${profile.wishlist.length})</span>
+            </div>
+        `;
+        
+        profilesList.appendChild(div);
+    });
+}
+
+function openCreateProfileModal() {
+    document.getElementById('createProfileModal').classList.remove('hidden');
+    document.getElementById('newProfileName').focus();
+}
+
+function closeCreateProfileModal() {
+    document.getElementById('createProfileModal').classList.add('hidden');
+    document.getElementById('newProfileName').value = '';
+}
+
+// Screen Navigation
+function goToHome() {
+    document.getElementById('homeScreen').classList.add('active');
+    document.getElementById('profileScreen').classList.remove('active');
+    document.getElementById('homeNavBtn').classList.add('active');
+    document.getElementById('profileNavBtn').classList.remove('active');
+}
+
+function goToProfile() {
+    document.getElementById('homeScreen').classList.remove('active');
+    document.getElementById('profileScreen').classList.add('active');
+    document.getElementById('homeNavBtn').classList.remove('active');
+    document.getElementById('profileNavBtn').classList.add('active');
+    displayProfiles();
+}
+
+// ============ WISHLIST MANAGEMENT ============
+
 // Ripple effect on click
 document.addEventListener('click', function(e) {
-    // Don't create ripple on buttons/inputs
     if (e.target.closest('button, input, textarea, select, a')) return;
     
     const ripple = document.createElement('div');
@@ -9,7 +148,6 @@ document.addEventListener('click', function(e) {
     ripple.style.top = e.clientY + 'px';
     document.body.appendChild(ripple);
     
-    // Remove ripple after animation
     setTimeout(() => ripple.remove(), 600);
 });
 
@@ -33,110 +171,47 @@ const saveEditBtn = document.getElementById('saveEditBtn');
 const cancelEditBtn = document.getElementById('cancelEditBtn');
 const closeModalBtn = document.querySelector('.close-modal');
 
-// Load wishlist from localStorage when page loads
-let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 let editingItemId = null;
-let currentSort = 'newest'; // default sort
-let searchQuery = ''; // search filter
-let activeCategory = null; // for category filtering
+let currentSort = 'newest';
+let searchQuery = '';
+let activeCategory = null;
 
-// Display items on page load
+// Initialize
 displayWishlist();
 updateStats();
+updateProfileName();
 
-// Add item when button is clicked
+// Event listeners
 addBtn.addEventListener('click', addItem);
-
-// Add item when Enter key is pressed
 itemInput.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        addItem();
-    }
+    if (event.key === 'Enter') addItem();
 });
 
-// Search functionality
 searchInput.addEventListener('input', function(event) {
     searchQuery = event.target.value.toLowerCase();
     displayWishlist();
 });
 
-// Sort button event listeners
 document.getElementById('sortPriceLow').addEventListener('click', () => setSortType('priceLow'));
 document.getElementById('sortPriceHigh').addEventListener('click', () => setSortType('priceHigh'));
 document.getElementById('sortNewest').addEventListener('click', () => setSortType('newest'));
 document.getElementById('sortOldest').addEventListener('click', () => setSortType('oldest'));
 
-// Modal event listeners
-closeModalBtn.addEventListener('click', closeEditModal);
+if (closeModalBtn) closeModalBtn.addEventListener('click', closeEditModal);
 cancelEditBtn.addEventListener('click', closeEditModal);
 saveEditBtn.addEventListener('click', saveEdit);
 editInput.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        saveEdit();
-    }
+    if (event.key === 'Enter') saveEdit();
 });
 
-// Close modal when clicking outside
 editModal.addEventListener('click', function(event) {
-    if (event.target === editModal) {
-        closeEditModal();
-    }
+    if (event.target === editModal) closeEditModal();
 });
 
-function isValidUrl(string) {
-    try {
-        new URL(string);
-        return true;
-    } catch (_) {
-        return false;
-    }
-}
+// ============ WISHLIST FUNCTIONS ============
 
-function getMetaTagContent(html, property) {
-    const regex = new RegExp(`<meta\\s+(?:property|name)=["']${property}["']\\s+content=["']([^"']+)["']`, 'i');
-    const match = html.match(regex);
-    return match ? match[1] : null;
-}
-
-function extractMetadata(html, url) {
-    let title = getMetaTagContent(html, 'og:title');
-    let image = getMetaTagContent(html, 'og:image');
-    let description = getMetaTagContent(html, 'og:description');
-    
-    if (!title) title = getMetaTagContent(html, 'title') || extractTitleFromHTML(html);
-    if (!description) description = getMetaTagContent(html, 'description');
-    
-    return { title: title || 'Untitled', image, description };
-}
-
-function extractTitleFromHTML(html) {
-    const match = html.match(/<title>([^<]+)<\/title>/i);
-    return match ? match[1] : null;
-}
-
-async function fetchLinkPreview(url) {
-    try {
-        // Try using a CORS proxy service
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-        const response = await fetch(proxyUrl);
-        const html = await response.text();
-        const metadata = extractMetadata(html, url);
-        
-        // If we got an image, make sure it's absolute URL
-        if (metadata.image && !metadata.image.startsWith('http')) {
-            const baseUrl = new URL(url).origin;
-            metadata.image = baseUrl + (metadata.image.startsWith('/') ? '' : '/') + metadata.image;
-        }
-        
-        return metadata;
-    } catch (error) {
-        console.log('Could not fetch preview for link:', error);
-        return {
-            title: new URL(url).hostname,
-            image: null,
-            description: null
-        };
-    }
+function getWishlist() {
+    return getCurrentProfile().wishlist;
 }
 
 function addItem() {
@@ -159,8 +234,8 @@ function addItem() {
         notes: null
     };
     
-    wishlist.push(item);
-    saveWishlist();
+    getWishlist().push(item);
+    saveProfiles();
     
     itemInput.value = '';
     itemLinkInput.value = '';
@@ -171,25 +246,29 @@ function addItem() {
 }
 
 function deleteItem(id) {
-    wishlist = wishlist.filter(item => item.id !== id);
-    saveWishlist();
-    updateStats();
-    displayWishlist();
+    const wishlist = getWishlist();
+    const index = wishlist.findIndex(item => item.id === id);
+    if (index > -1) {
+        wishlist.splice(index, 1);
+        saveProfiles();
+        updateStats();
+        displayWishlist();
+    }
 }
 
 function toggleDone(id) {
-    const item = wishlist.find(item => item.id === id);
+    const item = getWishlist().find(item => item.id === id);
     if (item) {
         item.done = !item.done;
+        saveProfiles();
+        updateStats();
+        displayWishlist();
     }
-    saveWishlist();
-    updateStats();
-    displayWishlist();
 }
 
 function openEditModal(id) {
     editingItemId = id;
-    const item = wishlist.find(item => item.id === id);
+    const item = getWishlist().find(item => item.id === id);
     if (item) {
         editInput.value = item.text;
         editCategorySelect.value = item.category || '';
@@ -229,7 +308,7 @@ function saveEdit() {
         return;
     }
     
-    const item = wishlist.find(item => item.id === editingItemId);
+    const item = getWishlist().find(item => item.id === editingItemId);
     if (item) {
         item.text = newText;
         item.category = newCategory || 'Other';
@@ -238,7 +317,7 @@ function saveEdit() {
         item.customImage = newImage || null;
         item.notes = newNotes || null;
         
-        saveWishlist();
+        saveProfiles();
         updateStats();
         displayWishlist();
     }
@@ -247,7 +326,7 @@ function saveEdit() {
 }
 
 function getFilteredWishlist() {
-    return wishlist.filter(item => {
+    return getWishlist().filter(item => {
         const matchesSearch = item.text.toLowerCase().includes(searchQuery) ||
             (item.category && item.category.toLowerCase().includes(searchQuery)) ||
             (item.notes && item.notes.toLowerCase().includes(searchQuery));
@@ -259,6 +338,7 @@ function getFilteredWishlist() {
 }
 
 function updateStats() {
+    const wishlist = getWishlist();
     const total = wishlist.length;
     const received = wishlist.filter(item => item.done).length;
     const remaining = total - received;
@@ -289,11 +369,9 @@ function updateSortButtons() {
 function getSortedWishlist() {
     let sorted = [...getFilteredWishlist()];
     
-    // Separate received and unreceived items
     const unreceived = sorted.filter(item => !item.done);
     const received = sorted.filter(item => item.done);
     
-    // Sort unreceived items based on current sort type
     switch(currentSort) {
         case 'priceLow':
             unreceived.sort((a, b) => {
@@ -317,17 +395,49 @@ function getSortedWishlist() {
             break;
     }
     
-    // Sort received items by newest first
     received.sort((a, b) => b.id - a.id);
     
-    // Combine: unreceived items first, then received items at the end
     return [...unreceived, ...received];
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 3000);
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('✨ Link copied to clipboard!');
+    }).catch(() => {
+        showToast('Failed to copy link');
+    });
+}
+
+function setActiveCategory(category) {
+    activeCategory = activeCategory === category ? null : category;
+    updateCategoryFilterButtons();
+    displayWishlist();
+}
+
+function updateCategoryFilterButtons() {
+    const buttons = document.querySelectorAll('.category-filter-btn');
+    buttons.forEach(btn => {
+        if (btn.dataset.category === activeCategory) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 }
 
 function displayWishlist() {
     wishlistItems.innerHTML = '';
     
-    if (wishlist.length === 0) {
+    if (getWishlist().length === 0) {
         emptyState.classList.remove('hidden');
     } else {
         emptyState.classList.add('hidden');
@@ -335,8 +445,7 @@ function displayWishlist() {
     
     const sortedWishlist = getSortedWishlist();
     
-    // Get all unique categories for filter buttons
-    const allCategories = [...new Set(wishlist.filter(item => item.category).map(item => item.category))].sort();
+    const allCategories = [...new Set(getWishlist().filter(item => item.category).map(item => item.category))].sort();
     const categoryFilterContainer = document.getElementById('categoryFilters');
     
     if (categoryFilterContainer && allCategories.length > 0) {
@@ -388,10 +497,6 @@ function displayWishlist() {
     });
 }
 
-function saveWishlist() {
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-}
-
 function escapeHtml(text) {
     const map = {
         '&': '&amp;',
@@ -401,38 +506,4 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.replace(/[&<>"']/g, m => map[m]);
-}
-
-function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => toast.remove(), 3000);
-}
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        showToast('✨ Link copied to clipboard!');
-    }).catch(() => {
-        showToast('Failed to copy link');
-    });
-}
-
-function setActiveCategory(category) {
-    activeCategory = activeCategory === category ? null : category;
-    updateCategoryFilterButtons();
-    displayWishlist();
-}
-
-function updateCategoryFilterButtons() {
-    const buttons = document.querySelectorAll('.category-filter-btn');
-    buttons.forEach(btn => {
-        if (btn.dataset.category === activeCategory) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
 }
