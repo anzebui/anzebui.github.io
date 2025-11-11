@@ -5,6 +5,68 @@
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><defs><filter id="dot-glow"><feGaussianBlur stdDeviation="1" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle cx="8" cy="8" r="5" fill="%235e3fb5" filter="url(%23dot-glow)" opacity="0.8"/><circle cx="8" cy="8" r="3" fill="%235e3fb5" opacity="1"/></svg>') 8 8, auto;
 }
 
+/* Navigation Bar */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: white;
+    border-top: 1px solid #e3daf2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 16px 16px;
+    z-index: 100;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    color: #8b7db8;
+}
+
+.nav-btn:hover {
+    background-color: #f3f0ff;
+    color: #5e3fb5;
+}
+
+.nav-btn.active {
+    color: #5e3fb5;
+    background-color: #ede9f7;
+}
+
+.profile-name {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    color: #5e3fb5;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 16px;
+}
+
+/* Screen Navigation */
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.screen.active {
+    display: block;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
     background: linear-gradient(135deg, #f8f7fc 0%, #f5f2ff 100%);
@@ -690,6 +752,173 @@ header h1 {
         transform: translateX(20px);
     }
 }
+
+/* Profile Screen Styles */
+.profile-container {
+    padding-top: 20px;
+}
+
+.current-profile-section {
+    margin: 24px 0;
+}
+
+.current-profile-section h2 {
+    font-size: 1.1em;
+    color: #5e3fb5;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.current-profile-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid #ede9f7;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(94, 63, 181, 0.08);
+    transition: all 0.25s ease;
+}
+
+.current-profile-card:hover {
+    box-shadow: 0 4px 12px rgba(94, 63, 181, 0.15);
+    transform: translateY(-2px);
+}
+
+.profile-emoji {
+    font-size: 2em;
+    min-width: 50px;
+    text-align: center;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-username {
+    font-weight: 600;
+    font-size: 1em;
+    color: #2d2d3d;
+    margin-bottom: 4px;
+}
+
+.profile-items {
+    font-size: 0.85em;
+    color: #8b7db8;
+}
+
+.profiles-list-section {
+    margin: 24px 0;
+}
+
+.profiles-list-section h2 {
+    font-size: 1.1em;
+    color: #5e3fb5;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.profiles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-list-item {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #e3daf2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.profile-list-item:hover {
+    background-color: #f3f0ff;
+    border-color: #5e3fb5;
+}
+
+.profile-list-item.active {
+    background-color: #ede9f7;
+    border-color: #5e3fb5;
+    font-weight: 600;
+}
+
+.profile-list-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.profile-list-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.profile-list-btn {
+    background: none;
+    border: none;
+    font-size: 0.9em;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    color: #5e3fb5;
+}
+
+.profile-list-btn:hover {
+    background-color: #dcc7f5;
+    color: #4a2d8d;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+    margin-bottom: 50px;
+}
+
+.profile-btn {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 0.95em;
+}
+
+.create-profile-btn {
+    background-color: #5e3fb5;
+    color: white;
+    box-shadow: 0 2px 8px rgba(94, 63, 181, 0.2);
+}
+
+.create-profile-btn:hover {
+    background-color: #4a2d8d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 63, 181, 0.3);
+}
+
+.danger-btn {
+    background-color: #ff6b6b;
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+}
+
+.danger-btn:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+@keyframes slideOutRight {
 
 .ripple {
     position: fixed;
