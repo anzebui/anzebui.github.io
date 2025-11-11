@@ -1,0 +1,62 @@
+{
+  "name": "✨ My Wishlist ✨",
+  "short_name": "Wishlist",
+  "description": "A beautiful, elegant wishlist app to track your cutest wishes",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#5e3fb5",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23f8f7fc;stop-opacity:1' /><stop offset='100%' style='stop-color:%23f5f2ff;stop-opacity:1' /></linearGradient></defs><rect width='192' height='192' fill='url(%23grad)'/><text x='96' y='120' font-size='80' text-anchor='middle' fill='%235e3fb5' font-weight='bold'>✨</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23f8f7fc;stop-opacity:1' /><stop offset='100%' style='stop-color:%23f5f2ff;stop-opacity:1' /></linearGradient></defs><rect width='512' height='512' fill='url(%23grad)'/><text x='256' y='360' font-size='280' text-anchor='middle' fill='%235e3fb5' font-weight='bold'>✨</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect width='540' height='720' fill='%23f8f7fc'/><text x='270' y='100' font-size='40' text-anchor='middle' fill='%235e3fb5' font-weight='bold'>✨ My Wishlist ✨</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Item",
+      "short_name": "Add",
+      "description": "Add a new item to your wishlist",
+      "url": "/?action=add",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%235e3fb5'/><text x='48' y='60' font-size='50' text-anchor='middle' fill='white' font-weight='bold'>+</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "View Wishlist",
+      "short_name": "View",
+      "description": "View your complete wishlist",
+      "url": "/",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%238b7db8'/><text x='48' y='65' font-size='50' text-anchor='middle' fill='white'>✨</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}
