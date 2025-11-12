@@ -176,12 +176,6 @@ function addItem() {
    };
   
    wishlist.push(item);
-  
-   // If link provided, try to fetch metadata
-   if (itemLink) {
-       fetchLinkMetadata(itemLink, item.id);
-   }
-  
    saveWishlist();
   
    itemInput.value = '';
@@ -190,63 +184,6 @@ function addItem() {
   
    updateStats();
    displayWishlist();
-}
-
-async function fetchLinkMetadata(url, itemId) {
-   try {
-       // Use CORS proxy to fetch the page
-       const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-       const response = await fetch(proxyUrl);
-       
-       if (!response.ok) return;
-       
-       const html = await response.text();
-       
-       // Extract image
-       let imageUrl = extractMetaTag(html, 'og:image');
-       if (!imageUrl) {
-           imageUrl = extractMetaTag(html, 'twitter:image');
-       }
-       
-       // Extract price
-       let price = extractMetaTag(html, 'product:price:amount') || 
-                   extractMetaTag(html, 'price');
-       
-       // Make image URL absolute if needed
-       if (imageUrl && !imageUrl.startsWith('http')) {
-           const baseUrl = new URL(url).origin;
-           imageUrl = baseUrl + (imageUrl.startsWith('/') ? '' : '/') + imageUrl;
-       }
-       
-       // Update the item with fetched data
-       const item = wishlist.find(i => i.id === itemId);
-       if (item) {
-           if (imageUrl) item.customImage = imageUrl;
-           if (price) item.price = price;
-           saveWishlist();
-           displayWishlist();
-       }
-   } catch (error) {
-       console.log('Could not fetch metadata for link:', error);
-       // Silently fail - user can edit manually
-   }
-}
-
-function extractMetaTag(html, property) {
-   const patterns = [
-       new RegExp(`<meta\\s+property=["']${property}["']\\s+content=["']([^"']+)["']`, 'i'),
-       new RegExp(`<meta\\s+name=["']${property}["']\\s+content=["']([^"']+)["']`, 'i'),
-       new RegExp(`<meta\\s+content=["']([^"']+)["']\\s+property=["']${property}["']`, 'i'),
-       new RegExp(`<meta\\s+content=["']([^"']+)["']\\s+name=["']${property}["']`, 'i')
-   ];
-   
-   for (let pattern of patterns) {
-       const match = html.match(pattern);
-       if (match && match[1]) {
-           return match[1];
-       }
-   }
-   return null;
 }
 
 
@@ -532,3 +469,4 @@ function updateCategoryFilterButtons() {
        }
    });
 }
+
