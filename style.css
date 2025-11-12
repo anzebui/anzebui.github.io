@@ -11,6 +11,7 @@ body {
    background: linear-gradient(135deg, #f8f7fc 0%, #f5f2ff 100%);
    min-height: 100vh;
    padding: 24px;
+   padding-top: max(24px, env(safe-area-inset-top));
    color: #2d2d3d;
 }
 
@@ -817,37 +818,157 @@ header h1 {
 
 
 @media (max-width: 768px) {
-   header h1 {
-       font-size: 1.8em;
-   }
-  
-   .input-section {
-       flex-direction: column;
-   }
-  
-   .add-btn {
-       width: 100%;
+   /* Safe area padding for notch */
+   body {
+       padding: 16px;
+       padding-top: max(16px, env(safe-area-inset-top));
    }
 
+   .container {
+       max-width: 100%;
+   }
+
+   header {
+       margin-bottom: 24px;
+   }
+
+   header h1 {
+       font-size: 1.6em;
+       margin-bottom: 4px;
+   }
+
+   .subtitle {
+       font-size: 0.85em;
+   }
+
+   .input-section {
+       flex-direction: column;
+       gap: 8px;
+       margin-bottom: 24px;
+   }
+
+   .input-field {
+       padding: 10px 12px;
+       font-size: 0.9em;
+   }
+
+   .add-btn {
+       width: 100%;
+       padding: 10px 16px;
+       font-size: 0.9em;
+   }
+
+   .stats-section {
+       gap: 8px;
+       margin-bottom: 24px;
+       padding-bottom: 16px;
+   }
+
+   .stat-item {
+       padding: 12px;
+   }
+
+   .stat-label {
+       font-size: 0.7em;
+   }
+
+   .stat-value {
+       font-size: 1.4em;
+   }
+
+   .filter-section {
+       gap: 8px;
+       margin-bottom: 24px;
+   }
 
    .sort-buttons {
        justify-content: center;
+       gap: 6px;
    }
 
+   .sort-btn {
+       padding: 8px 10px;
+       font-size: 0.75em;
+   }
+
+   /* Horizontal scrollable categories on mobile */
+   .category-filters {
+       display: flex;
+       gap: 6px;
+       flex-wrap: nowrap;
+       overflow-x: auto;
+       -webkit-overflow-scrolling: touch;
+       padding: 4px 0;
+       margin: 0 -16px;
+       padding-left: 16px;
+       padding-right: 16px;
+   }
+
+   .category-filter-btn {
+       padding: 6px 10px;
+       font-size: 0.75em;
+       white-space: nowrap;
+       flex-shrink: 0;
+   }
+
+   .search-input {
+       font-size: 0.9em;
+   }
 
    .wishlist-gallery {
        grid-template-columns: repeat(2, 1fr);
-       gap: 12px;
+       gap: 10px;
    }
 
+   .wishlist-item {
+       border-radius: 8px;
+   }
 
    .item-image {
-       height: 120px;
+       height: 100px;
    }
 
+   .item-content {
+       padding: 10px;
+       gap: 4px;
+   }
+
+   .item-title {
+       font-size: 0.85em;
+   }
+
+   .item-category {
+       font-size: 0.6em;
+       padding: 1px 4px;
+   }
+
+   .item-price {
+       font-size: 0.9em;
+   }
+
+   .item-notes {
+       font-size: 0.7em;
+   }
+
+   .item-link {
+       font-size: 0.75em;
+   }
+
+   .item-btn {
+       padding: 6px 8px;
+       font-size: 0.8em;
+   }
 
    .modal-content {
        padding: 20px;
    }
-}
 
+   .empty-state {
+       padding: 60px 20px;
+   }
+
+   .empty-state::before {
+       font-size: 2.5em;
+       margin-bottom: 12px;
+   }
+}
