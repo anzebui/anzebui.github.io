@@ -884,6 +884,8 @@ header h1 {
    .sort-buttons {
        justify-content: center;
        gap: 6px;
+       display: grid;
+       grid-template-columns: repeat(2, 1fr);
    }
 
    .sort-btn {
