@@ -105,6 +105,35 @@ body {
    transform: translateY(0);
 }
 
+.skip-login-btn {
+   width: 100%;
+   padding: 12px 16px;
+   background-color: #f3f0ff;
+   color: #5e3fb5;
+   border: 1px solid #d4c9e8;
+   border-radius: 8px;
+   font-size: 0.95em;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.25s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 12px;
+   margin-top: 12px;
+}
+
+.skip-login-btn:hover {
+   background-color: #ede9f7;
+   border-color: #5e3fb5;
+   box-shadow: 0 4px 12px rgba(94, 63, 181, 0.1);
+   transform: translateY(-2px);
+}
+
+.skip-login-btn:active {
+   transform: translateY(0);
+}
+
 .login-note {
    font-size: 0.8em;
    color: #8b7db8;
