@@ -82,13 +82,12 @@ skipLoginBtn.addEventListener('click', () => {
   loginScreen.classList.remove('active');
   wishlistScreen.classList.add('active');
   
-  // Load default item if wishlist is empty
+  // Add default item if wishlist is empty
   if (wishlist.length === 0) {
     addDefaultItem();
+    displayWishlist();
+    updateStats();
   }
-  
-  displayWishlist();
-  updateStats();
 });
 
 // Listen for authentication state changes
