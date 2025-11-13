@@ -3,7 +3,7 @@
 // ===============================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCr7WnXnY7UeXz5W58_S69e7zidWWpuZxM",
+  apiKey: "AIzaSyCjzrcgGMtii60UuqXi-eFGUh_faITedA4",
   authDomain: "wishlist-app-e7566.firebaseapp.com",
   projectId: "wishlist-app-e7566",
   storageBucket: "wishlist-app-e7566.firebasestorage.app",
@@ -81,12 +81,6 @@ const skipLoginBtn = document.getElementById('skipLoginBtn');
 skipLoginBtn.addEventListener('click', () => {
   loginScreen.classList.remove('active');
   wishlistScreen.classList.add('active');
-  
-  if (wishlist.length === 0) {
-    addDefaultItem();
-    saveWishlist();  // ADD THIS LINE
-  }
-  
   displayWishlist();
   updateStats();
 });
@@ -595,19 +589,4 @@ function updateCategoryFilterButtons() {
       btn.classList.remove('active');
     }
   });
-}
-function addDefaultItem() {
-  const defaultItem = {
-    id: Date.now(),
-    text: "Heated Coffee Mug",
-    done: false,
-    category: "Home",
-    price: "112.25",
-    link: "https://www.amazon.com/Ember-Temperature-Control-1-5-hr-Battery/dp/B07NQRM6ML?th=1",
-    customImage: "https://m.media-amazon.com/images/I/51tXJGC0gQL._AC_SL1500_.jpg",
-    notes: "A cup that allows you to control the temperature of the drink"
-  };
-  
-  wishlist.push(defaultItem);
-  saveWishlist();
 }
