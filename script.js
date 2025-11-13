@@ -3,7 +3,7 @@
 // ===============================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCjzrcgGMtii60UuqXi-eFGUh_faITedA4",
+  apiKey: "AIzaSyCr7WnXnY7UeXz5W58_S69e7zidWWpuZxM",
   authDomain: "wishlist-app-e7566.firebaseapp.com",
   projectId: "wishlist-app-e7566",
   storageBucket: "wishlist-app-e7566.firebasestorage.app",
