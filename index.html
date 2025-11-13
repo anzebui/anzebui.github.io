@@ -46,10 +46,13 @@
     <!-- Wishlist Screen -->
     <div id="wishlistScreen" class="screen">
         <div class="container">
-            <header>
-                <h1>✨ My Wishlist ✨</h1>
-                <p class="subtitle">add the cutest things you want 💕</p>
-            </header>
+            <div class="header-with-logout">
+                <header>
+                    <h1>✨ My Wishlist ✨</h1>
+                    <p class="subtitle">add the cutest things you want 💕</p>
+                </header>
+                <button id="logoutBtn" class="logout-btn">Logout 👋</button>
+            </div>
 
             <div class="input-section">
                 <input 
@@ -113,10 +116,6 @@
             <div id="emptyState" class="empty-state">
                 <p>your wishlist is empty... add something cute! 🌸</p>
             </div>
-
-            <div class="logout-footer">
-                <button id="logoutBtn" class="logout-btn">Logout 👋</button>
-            </div>
         </div>
     </div>
 
@@ -176,9 +175,9 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script src="script.js"></script>
     <script>
@@ -197,3 +196,4 @@
     </script>
 </body>
 </html>
+
